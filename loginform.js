@@ -12,14 +12,14 @@ function saveInput(inputarr) {
 
 function showError(input, message) {
     const formControl = input.parentElement;
-    formControl.className = 'form-control-error';
+    formControl.className = 'form-control error';
     const small = formControl.querySelector('small');
     small.innerText = message;
 }
 
 function showSuccess(input) {
     const formControl = input.parentElement;
-    formControl.className = 'form-control-success';
+    formControl.className = 'form-control success';
     const small = formControl.querySelector('small');
     small.innerText = 'Success';
 }
@@ -105,6 +105,11 @@ function checkRequired(event) {
     };
 
     saveInput(inputarr);
+    //usernameInput.value = "";
+    //emailInput.value = "";
+    //passwordInput.value = "";
+    //confirmpasswordInput.value = "";
+
 }
 
 function init() {
