@@ -4,6 +4,11 @@ const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
 const confirmpasswordInput = document.getElementById('confirmpassword');
 
+const LOGINREG = "login_reg";
+
+function saveInput(inputarr) {
+    localStorage.setItem(LOGINREG, JSON.stringify(inputarr));
+}
 
 function showError(input, message) {
     const formControl = input.parentElement;
@@ -35,9 +40,7 @@ function checkUsername(username, min, max) {
         );
     } else {
         showSuccess(username);
-        return true;
-
-        //saveInput(input);
+        return username.value;
     }
 }
 
@@ -45,7 +48,7 @@ function checkEmail(email) {
     const reg = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
     if (reg.test(email.value.trim())) {
         showSuccess(email);
-        return true;
+        return email.value;
     } else {
         showError(
             email,
@@ -71,8 +74,6 @@ function checkPassword(password, min, max) {
     } else {
         showSuccess(password);
         return true;
-
-        //saveInput(input);
     }
 }
 
@@ -80,6 +81,7 @@ function checkPasswordMatch(password1, password2, passwordcheck) {
     //console.log(password2.value);
     if (password2.value === password1.value && passwordcheck) {
         showSuccess(password2);
+        return password1.value;
     } else {
         showError(
             password2,
@@ -91,10 +93,18 @@ function checkPasswordMatch(password1, password2, passwordcheck) {
 function checkRequired(event) {
     event.preventDefault();
 
-    checkUsername(usernameInput, 3, 15);
-    checkEmail(emailInput);
+    const username = checkUsername(usernameInput, 3, 15);
+    const email = checkEmail(emailInput);
     let passwordcheck = checkPassword(passwordInput, 6, 20);
-    checkPasswordMatch(passwordInput, confirmpasswordInput, passwordcheck);
+    const password = checkPasswordMatch(passwordInput, confirmpasswordInput, passwordcheck);
+
+    const inputarr = {
+        username,
+        email,
+        password
+    };
+
+    saveInput(inputarr);
 }
 
 function init() {
